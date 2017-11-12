@@ -1,0 +1,6 @@
+rootProject.name = 'web-eng-dus'
+
+include 'shop-service'
+include 'elasticsearch-sink'
+include 'redis-sink'
+include 'streamproc'

@@ -1,0 +1,20 @@
+[
+  {
+    "productName": "Beer",
+    "productDescription": "Fluid for life!",
+    "price": 2.0,
+    "stock": 3
+  },
+  {
+    "productName": "Apples",
+    "productDescription": "Keeps the doctor away",
+    "price": 0.5,
+    "stock": 50
+  },
+  {
+    "productName": "Shoes",
+    "productDescription": "I've no clue what to write about shoes. Wear them, they are awesome?",
+    "price": 99.0,
+    "stock": 20
+  }
+]
