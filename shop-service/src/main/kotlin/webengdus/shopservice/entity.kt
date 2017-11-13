@@ -1,6 +1,7 @@
 package webengdus.shopservice
 
 import java.io.Serializable
+import java.time.Instant
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
@@ -17,4 +18,10 @@ data class Product(
         @Column var productDescription: String? = null,
         @Column var price: Double? = null,
         @Column var stock: Int = 0,
-        @Transient var soldOverTime: Int = 0) : Serializable
+        @Transient var soldOverTime: Int = 0,
+        @Transient var otherPeopleBought: Set<Product> = setOf()) : Serializable
+
+data class AnalyticsRecord(
+        val sessionId: String,
+        val skuPurchased: Long,
+        val recordedAt: Long = Instant.now().toEpochMilli()) : Serializable

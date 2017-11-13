@@ -2,6 +2,7 @@
 
 KAFKA_HEAP_OPTS="-Xmx512m -Xms512m -XX:+UseCompressedOops -Djava.net.preferIPv4Stack=true"
 
+rm ../connect.offsets.shop
 rm connect.offsets.shop
 
 bin/connect-standalone.sh \

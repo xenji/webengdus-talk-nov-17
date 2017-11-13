@@ -1,5 +1,9 @@
 package webengdus.shopservice
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import org.apache.kafka.clients.producer.KafkaProducer
+import org.apache.kafka.clients.producer.ProducerRecord
+import org.apache.kafka.common.utils.Bytes
 import org.springframework.data.redis.core.HashOperations
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.core.SetOperations
@@ -8,7 +12,8 @@ import org.springframework.stereotype.Service
 import javax.annotation.PostConstruct
 
 @Service
-class ProductService(private val redisTemplate: RedisTemplate<String, String>) {
+class ProductService(private val objectMapper: ObjectMapper,
+                     private val redisTemplate: RedisTemplate<String, String>) {
     private lateinit var setOps: SetOperations<String, String>
     private lateinit var hmOps: HashOperations<String, String, Product>
     private lateinit var valOps: ValueOperations<String, String>
@@ -29,5 +34,26 @@ class ProductService(private val redisTemplate: RedisTemplate<String, String>) {
                     it
                 }
             }
+
+    /**
+     * Get the product, map the purchase statistics on the fly and return it.
+     */
+    fun getProduct(sku: Long): Product? =
+            hmOps.get("products", sku.toString())?.apply {
+                soldOverTime = valOps.get("sold-$sku")?.toInt() ?: 0
+                otherPeopleBought = setOps.members("compliment-$sku").let {
+                    valOps.multiGet(it).map { objectMapper.readValue(it, Product::class.java) }.toSet()
+                }
+            }
+
 }
 
+@Service
+class PurchaseAnalyticsService(
+        private val objectMapper: ObjectMapper,
+        private val kafkaProducer: KafkaProducer<Bytes, String>) {
+
+    fun emitRecord(analyticsRecord: AnalyticsRecord) =
+            kafkaProducer.send(ProducerRecord("shop.purchases", objectMapper.writeValueAsString(analyticsRecord))).get()
+
+}

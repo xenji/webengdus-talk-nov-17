@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Hello, world!</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+          integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous"/>
+</head>
+<body>
+<div class="container">
+    <h1>Awesome shop</h1>
+    <h2 th:text="${product.productName}"></h2>
+    <div class="row">
+        <div class="col-md-8">
+            <p th:text="${product.productDescription}"></p>
+        </div>
+        <div class="col-md-4 well">
+            <h3>Buy now</h3>
+
+            <p th:if="${product.soldOverTime == 0}">We have still <span th:text="${product.stock}"></span> left in
+                stock.</p>
+
+            <p th:if="${product.soldOverTime > 0}">
+                We have still <span th:text="${product.stock}"></span> left in stock, but we sold
+                <span class="badge badge-info" th:text="${product.soldOverTime + ' lately!'}"></span>
+            </p>
+            <p>
+                <a th:href="@{'/store/buy/' + ${product.sku}}" class="btn btn-primary" th:if="${product.stock > 0}">Buy
+                    one!</a>
+                <a class="btn btn-error" th:if="${product.stock == 0}">Sold out!</a>
+            </p>
+        </div>
+    </div>
+    <div class="row">
+
+    </div>
+</div>
+</body>
+</html>

@@ -1,5 +1,9 @@
 package webengdus.shopservice
 
+import org.apache.kafka.clients.producer.KafkaProducer
+import org.apache.kafka.clients.producer.ProducerConfig
+import org.apache.kafka.common.serialization.Serdes
+import org.apache.kafka.common.utils.Bytes
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
@@ -24,4 +28,17 @@ class RedisConfiguration {
     }
 }
 
+@Configuration
+class KafkaProducerConfig {
+
+    @Bean(destroyMethod = "close")
+    fun kafkaProducer(): KafkaProducer<Bytes, String> =
+            KafkaProducer<Bytes, String>(
+                    mapOf(
+                            ProducerConfig.BOOTSTRAP_SERVERS_CONFIG to "localhost:9092",
+                            ProducerConfig.CLIENT_ID_CONFIG to "shop-service",
+                            ProducerConfig.LINGER_MS_CONFIG to "50"),
+                    Serdes.Bytes().serializer(),
+                    Serdes.StringSerde().serializer())
+}
 
