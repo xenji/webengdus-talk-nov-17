@@ -7,4 +7,5 @@ rm connect.offsets.shop
 bin/connect-standalone.sh \
 config/connect-standalone-shop.properties \
 connectors/debezium_localdb.shop.properties \
-connectors/redis_cache.properties
+connectors/redis_cache.properties \
+connectors/elasticsearch.properties

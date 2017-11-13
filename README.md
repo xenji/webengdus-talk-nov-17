@@ -29,6 +29,20 @@ Please execute this in the MySQL CLI:
 
     CREATE DATABASE IF NOT EXISTS `shop`;
 
+### Elasticsearch
+
+Please start an Elasticsearch instance somewhere. The current configuration
+assumes it on localhost, but you can change that in `kafka-dist/connectors/elasticsearch.properties`
+
+### Redis
+
+Please start a Redis server somewhere. The current configuration expects it
+on localhost, but you can change that in `kafka-dist/connectors/redis_cache.properties` and
+then you need to tell the `RedisTemplate` in Spring Boot to use your custom connection (that
+can be done by providing a `RedisConnection` bean with the appropriate connection string. See
+`webengdus.shopservice.RedisConfiguration` for the right place to start). The last place
+to change the Redis address is in the Stream Processor.
+
 ### Zookeeper
 
 We run ZK in foreground. Alternatively you can add `-daemon` and move it
@@ -92,6 +106,19 @@ with the impression of downloading half of the internet.
 
     cd ..
     ./gradlew shop-service:bootRun 
+
+### The stream processor
+The SP tracks the sold items per time and reports it directly to the Redis instance.
+You can start it by using gradle again:
+
+**Important:** Don't run this for the first time on a mobile connection! Gradle will leave your
+with the impression of downloading half of the internet.
+
+**Change the directory to the root of the repository!**
+
+    cd ..
+    ./gradlew streamproc:run
+
 
 ### Additional scripts
 

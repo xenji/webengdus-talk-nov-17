@@ -1,11 +1,10 @@
 spring:
   thymeleaf:
-    cache: false
+    cache: true
   jpa:
     database: mysql
     hibernate:
       ddl-auto: update
-    show-sql: true
     generate-ddl: true
   datasource:
     driver-class-name: com.mysql.jdbc.Driver

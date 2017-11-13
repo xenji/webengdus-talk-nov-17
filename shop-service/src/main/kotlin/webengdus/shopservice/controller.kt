@@ -16,7 +16,8 @@ class StoreController(
 
     @GetMapping("index.html")
     fun storeOverview(model: Model): String {
-        model.addAttribute("products", productService.getProducts())
+        val products = productService.getProducts()
+        model.addAttribute("products", products)
         return "storefront"
     }
 

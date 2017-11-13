@@ -29,10 +29,9 @@ repositories {
 }
 
 dependencies {
-    compile('biz.paluch.redis:lettuce:4.4.0.Final')
-    compile('org.apache.kafka:connect-api:1.0.0')
-    compile('com.fasterxml.jackson.module:jackson-module-kotlin:2.9.0')
-
+    compile 'org.apache.kafka:connect-api:1.0.0'
+    compile 'biz.paluch.redis:lettuce:4.4.0.Final'
+    compile 'com.fasterxml.jackson.module:jackson-module-kotlin:2.9.0'
     compile("org.jetbrains.kotlin:kotlin-stdlib-jre8:1.1.51")
     compile('io.github.microutils:kotlin-logging:1.4.6')
 }

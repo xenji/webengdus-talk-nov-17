@@ -33,16 +33,20 @@ class ShopRedisSinkTask : SinkTask() {
     override fun put(records: Collection<SinkRecord>) {
         records.forEach {
             val k = it.key() as Struct
-            val v = it.value() as Struct?
+            val v = it.value() as Struct? ?: return@forEach
             val sku = k.getInt64("sku")
-            when (v) {
-                null -> delete(sku)
-                else -> upsert(Product(
-                        sku = v.getInt64("sku"),
-                        productName = v.getString("product_name"),
-                        productDescription = v.getString("product_description"),
-                        price = v.getFloat64("price"),
-                        stock = v.getInt32("stock")))
+
+            when (v.getString("op")) {
+                "d" -> delete(sku)
+                else -> {
+                    val after = v.getStruct("after")
+                    upsert(Product(
+                            sku = after.getInt64("sku"),
+                            productName = after.getString("product_name"),
+                            productDescription = after.getString("product_description"),
+                            price = after.getFloat64("price"),
+                            stock = after.getInt32("stock")))
+                }
             }
         }
     }
