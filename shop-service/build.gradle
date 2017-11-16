@@ -1,21 +1,9 @@
-buildscript {
-    ext {
-        kotlinVersion = '1.1.51'
-        springBootVersion = '1.5.8.RELEASE'
-    }
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
-        classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
-        classpath("org.jetbrains.kotlin:kotlin-noarg:${kotlinVersion}")
-    }
-}
-
 plugins {
-    id 'org.jmailen.kotlinter' version '1.4.0'
+    id "org.jetbrains.kotlin.jvm"
+    id 'org.jmailen.kotlinter'
+    id "org.springframework.boot" version "1.5.8.RELEASE"
+    id "org.jetbrains.kotlin.plugin.allopen"
+    id "org.jetbrains.kotlin.plugin.noarg"
 }
 
 apply plugin: 'kotlin'
@@ -27,6 +15,11 @@ apply plugin: 'org.springframework.boot'
 group = 'webengdus'
 version = '0.1-SNAPSHOT'
 sourceCompatibility = 1.8
+
+
+bootRepackage {
+    mainClass = 'webengdus.shopservice.ShopServiceApplication'
+}
 
 idea {
     module {
@@ -41,10 +34,6 @@ compileKotlin {
 
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
-}
-
-repositories {
-    jcenter()
 }
 
 noArg {
@@ -74,8 +63,8 @@ dependencies {
     compile 'org.apache.kafka:kafka-clients:1.0.0'
 
 
-    compile("org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlinVersion}")
-    compile("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
+    compile("org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion")
+    compile("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     compile('io.github.microutils:kotlin-logging:1.4.6')
 
     runtime('mysql:mysql-connector-java')

@@ -49,7 +49,6 @@ fun main(args: Array<String>) {
 
     // This is very, very ignorant. We would need to inspect if the event is really a sale
     // and if so, then process it. Also we would want to make this stateful over some materialized mechanism.
-
     streamBuilder.stream(SOURCE_TOPIC_NAME, Consumed.with(jsonSerde, jsonSerde))
             .filter({ _, v ->
                 if (v == null) {
@@ -81,7 +80,6 @@ fun main(args: Array<String>) {
                 redisConn.expire(k, 60L)
             }
 
-    /* Kafka Boilerplate: Actually run our kafka streams topology */
     val topology = streamBuilder.build()
     val kafkaStreams = KafkaStreams(topology, streamsConfig)
     logger.info { "Starting stream application" }

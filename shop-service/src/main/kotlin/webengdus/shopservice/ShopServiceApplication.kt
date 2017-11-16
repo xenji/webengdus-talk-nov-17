@@ -13,8 +13,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 class ShopServiceApplication {
     @Bean
     fun taskExecutor(): TaskExecutor = SimpleAsyncTaskExecutor()
-}
 
-fun main(args: Array<String>) {
-    SpringApplication.run(ShopServiceApplication::class.java, *args)
+    companion object {
+        @JvmStatic
+        fun main(args: Array<String>) {
+            SpringApplication.run(ShopServiceApplication::class.java, *args)
+        }
+    }
 }

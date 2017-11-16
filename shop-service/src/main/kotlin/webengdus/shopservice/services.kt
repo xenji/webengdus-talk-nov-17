@@ -45,7 +45,6 @@ class ProductService(private val objectMapper: ObjectMapper,
                     valOps.multiGet(it).map { objectMapper.readValue(it, Product::class.java) }.toSet()
                 }
             }
-
 }
 
 @Service
@@ -54,6 +53,6 @@ class PurchaseAnalyticsService(
         private val kafkaProducer: KafkaProducer<Bytes, String>) {
 
     fun emitRecord(analyticsRecord: AnalyticsRecord) =
-            kafkaProducer.send(ProducerRecord("shop.purchases", objectMapper.writeValueAsString(analyticsRecord))).get()
+            kafkaProducer.send(ProducerRecord("shop.purchases", objectMapper.writeValueAsString(analyticsRecord))).get()!!
 
 }
