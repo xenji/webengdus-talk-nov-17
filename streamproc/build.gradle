@@ -9,7 +9,7 @@ apply plugin: 'application'
 group = 'webengdus'
 version = '0.1-SNAPSHOT'
 sourceCompatibility = 1.8
-mainClassName = 'webengdus.streamproc.UpdateStreamProcKt'
+mainClassName = 'webengdus.streamproc.Cdc_stream_procKt'
 
 idea {
     module {
